@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const sendEmail = require('../utils/emailSender');
-const sendSMS = require('../utils/smsSender');
-const sendWhatsApp = require('../utils/whatsappSender');
+// const sendWhatsApp = require('../utils/whatsappSender');
 const { generatePDFBuffer } = require('../utils/pdfGenerator');
 
 router.post('/api/send-invoices', async (req, res) => {
@@ -82,12 +81,10 @@ router.post('/api/send-invoices', async (req, res) => {
       if (channels.email && invoice.email) {
         await sendEmail(invoice.email, 'Your Invoice', fullInvoiceData, pdfBuffer);
       }
-      if (channels.sms && invoice.phone) {
-        await sendSMS(invoice.phone, fullInvoiceData);
-      }
-      if (channels.whatsapp && invoice.phone) {
-        await sendWhatsApp(invoice.phone, fullInvoiceData);
-      }
+     
+      // if (channels.whatsapp && invoice.phone) {
+      //   await sendWhatsApp(invoice.phone, fullInvoiceData);
+      // }
 
       results.push({ id: invoice.id, status: 'sent' });
     } catch (error) {
